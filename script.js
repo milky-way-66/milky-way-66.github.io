@@ -171,21 +171,9 @@ function createFireworks() {
     }, 500);
 }
 
-// Add CSS for simple fireworks dynamically
+// Initial state
 const style = document.createElement('style');
 style.textContent = `
-    .firework {
-        position: absolute;
-        width: 5px;
-        height: 5px;
-        border-radius: 50%;
-        box-shadow: 0 0 10px 2px currentColor;
-        animation: explode 1s ease-out forwards;
-        z-index: 1;
-    }
-    @keyframes explode {
-        0% { transform: scale(1); opacity: 1; }
-        100% { transform: scale(10); opacity: 0; }
-    }
+    .heart-animation { z-index: 5; }
 `;
 document.head.appendChild(style);
