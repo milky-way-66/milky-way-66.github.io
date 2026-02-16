@@ -73,7 +73,7 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 100%;
     max-width: 550px;
     z-index: 10;
@@ -101,24 +101,25 @@ body {
 
 .glow-text {
     font-weight: 900;
-    font-size: 4.5rem;
+    font-size: clamp(3.5rem, 12vw, 5rem);
     color: var(--vibrant-rose);
     letter-spacing: -2px;
     margin-bottom: 2rem;
-    -webkit-text-stroke: 2px var(--text-dark);
+    -webkit-text-stroke: 1.5px var(--text-dark);
     text-shadow: 4px 4px 0px var(--lemon);
+    line-height: 1.1;
 }
 
 .question-text {
     font-weight: 800;
-    font-size: 2.2rem;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
     color: var(--text-dark);
     margin-bottom: 1.5rem;
     line-height: 1.2;
 }
 
 p {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 4vw, 1.3rem);
     line-height: 1.5;
     margin-bottom: 2rem;
     font-weight: 600;
@@ -168,8 +169,8 @@ button {
 .btn-no {
     background-color: var(--cute-pink);
     color: var(--text-dark);
-    transition: left 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
-        top 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
         transform 0.2s ease;
 }
 
@@ -186,6 +187,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 1rem;
 }
 
 .meme-content {
@@ -196,6 +198,7 @@ button {
     box-shadow: 10px 10px 0px var(--text-dark);
     text-align: center;
     max-width: 400px;
+    width: 100%;
     animation: shake 0.5s infinite;
 }
 
@@ -233,7 +236,7 @@ button {
 }
 
 #meme-text {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: #e53e3e;
     font-weight: 900;
     margin-bottom: 1.5rem;
@@ -264,6 +267,28 @@ button {
     }
 }
 
+.click-particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    animation: particleOut 0.8s ease-out forwards;
+}
+
+@keyframes particleOut {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
 .heart-animation {
     font-size: 5rem;
     display: inline-block;
@@ -276,22 +301,20 @@ button {
     }
 }
 
-/* Mobile adjustments */
 @media (max-width: 600px) {
-    .glow-text {
-        font-size: 3rem;
-    }
-
-    .question-text {
-        font-size: 1.6rem;
-    }
-
     .btn-group {
         flex-direction: column;
         align-items: stretch;
+        gap: 1rem;
     }
 
     .card {
-        padding: 2rem 1.5rem;
+        padding: 2.5rem 1.5rem;
+        border-radius: 25px;
+        box-shadow: 7px 7px 0px var(--text-dark);
+    }
+
+    .scene {
+        padding: 1rem;
     }
 }

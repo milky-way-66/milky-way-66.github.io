@@ -36,34 +36,39 @@ function setupDodging(btnId) {
     const noBtn = document.getElementById(btnId);
     let isChasing = false;
 
-    document.addEventListener('mousemove', (e) => {
-        if (!noBtn.closest('.scene').classList.contains('active')) return;
-        lastMouse.x = e.clientX;
-        lastMouse.y = e.clientY;
+    // Kiểm tra xem có phải thiết bị di động/cảm ứng không
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-        const btnRect = noBtn.getBoundingClientRect();
-        const btnCenterX = btnRect.left + btnRect.width / 2;
-        const btnCenterY = btnRect.top + btnRect.height / 2;
-        const distX = e.clientX - btnCenterX;
-        const distY = e.clientY - btnCenterY;
-        const distance = Math.sqrt(distX * distX + distY * distY);
+    if (!isTouchDevice) {
+        document.addEventListener('mousemove', (e) => {
+            if (!noBtn.closest('.scene').classList.contains('active')) return;
+            lastMouse.x = e.clientX;
+            lastMouse.y = e.clientY;
 
-        if (distance < DODGE_THRESHOLD) {
-            if (!isChasing) {
-                noCount++;
-                isChasing = true;
-                if (noCount >= MAX_NO_ATTEMPTS) showMeme();
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+            const distX = e.clientX - btnCenterX;
+            const distY = e.clientY - btnCenterY;
+            const distance = Math.sqrt(distX * distX + distY * distY);
+
+            if (distance < DODGE_THRESHOLD) {
+                if (!isChasing) {
+                    noCount++;
+                    isChasing = true;
+                    if (noCount >= MAX_NO_ATTEMPTS) showMeme();
+                }
+                if (!fleeRAF) {
+                    fleeRAF = requestAnimationFrame(() => {
+                        fleeFromMouse(noBtn, lastMouse.x, lastMouse.y);
+                        fleeRAF = null;
+                    });
+                }
+            } else {
+                isChasing = false;
             }
-            if (!fleeRAF) {
-                fleeRAF = requestAnimationFrame(() => {
-                    fleeFromMouse(noBtn, lastMouse.x, lastMouse.y);
-                    fleeRAF = null;
-                });
-            }
-        } else {
-            isChasing = false;
-        }
-    });
+        });
+    }
 
     noBtn.addEventListener('click', (e) => {
         e.preventDefault();
